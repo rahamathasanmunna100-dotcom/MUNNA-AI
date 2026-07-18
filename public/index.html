@@ -1,39 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUNNA AI</title>
+<footer>
 
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <!-- Voice -->
+    <button id="micBtn" onclick="startVoice()">
+        🎤
+    </button>
 
-<div class="container">
+    <!-- Image Upload -->
+    <label for="imageFile" class="upload-btn">
+        🖼️
+    </label>
 
-    <div class="profile">
-        <img src="profile.jpg" alt="Munna">
-        <h1>MUNNA AI</h1>
-    </div>
+    <input
+        type="file"
+        id="imageFile"
+        accept="image/*"
+        hidden
+    >
 
-    <div id="chat"></div>
+    <!-- PDF Upload -->
+    <label for="pdfFile" class="upload-btn">
+        📄
+    </label>
 
-    <div class="input-area">
-        <input
-            id="message"
-            type="text"
-            placeholder="Type your message..."
-            autocomplete="off"
-        >
+    <input
+        type="file"
+        id="pdfFile"
+        accept=".pdf"
+        hidden
+    >
 
-        <button onclick="sendMessage()">
-            Send
-        </button>
-    </div>
+    <!-- Message -->
+    <input
+        id="message"
+        type="text"
+        placeholder="Ask anything..."
+        autocomplete="off"
+    >
 
-</div>
+    <!-- Send -->
+    <button onclick="sendMessage()">
+        Send
+    </button>
 
-<script src="script.js"></script>
-
-</body>
-</html>
+</footer>

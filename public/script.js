@@ -1,24 +1,35 @@
+const input = document.getElementById("message");
+const chat = document.getElementById("chat");
+const themeBtn = document.getElementById("themeBtn");
+
+// Load saved chat
+window.onload = () => {
+    const history = localStorage.getItem("munna_chat");
+    if (history) {
+        chat.innerHTML = history;
+        chat.scrollTop = chat.scrollHeight;
+    }
+};
+
+// Theme
+themeBtn.onclick = () => {
+    document.body.classList.toggle("light");
+    themeBtn.innerHTML =
+        document.body.classList.contains("light") ? "☀️" : "🌙";
+};
+
+// Send Message
 async function sendMessage() {
-    const input = document.getElementById("message");
-    const chat = document.getElementById("chat");
 
     const message = input.value.trim();
 
-    if (message === "") return;
+    if (!message) return;
 
-    // User Message
-    chat.innerHTML += `
-        <p><b>🧑 You:</b> ${message}</p>
-    `;
+    addUserMessage(message);
 
     input.value = "";
 
-    // Typing...
-    chat.innerHTML += `
-        <p id="typing"><b>🤖 MUNNA AI:</b> Typing...</p>
-    `;
-
-    chat.scrollTop = chat.scrollHeight;
+    showTyping();
 
     try {
 
@@ -28,36 +39,166 @@ async function sendMessage() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                message: message
+                message
             })
         });
 
         const data = await response.json();
 
-        // Remove Typing
-        document.getElementById("typing").remove();
+        removeTyping();
 
-        // AI Reply
-        chat.innerHTML += `
-            <p><b>🤖 MUNNA AI:</b> ${data.reply}</p>
-        `;
+        addAIMessage(data.reply);
 
-    } catch (error) {
+        saveChat();
 
-        const typing = document.getElementById("typing");
-        if (typing) typing.remove();
+        speak(data.reply);
 
-        chat.innerHTML += `
-            <p><b>🤖 MUNNA AI:</b> ❌ Server Error!</p>
-        `;
+    } catch {
+
+        removeTyping();
+
+        addAIMessage("❌ Server Error");
+
     }
 
-    chat.scrollTop = chat.scrollHeight;
 }
 
-// Press Enter to Send
-document.getElementById("message").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        sendMessage();
+// User Bubble
+function addUserMessage(text){
+
+    chat.innerHTML += `
+        <div class="message user">
+            ${text}
+        </div>
+    `;
+
+    chat.scrollTop = chat.scrollHeight;
+
+}
+
+// AI Bubble
+function addAIMessage(text){
+
+    chat.innerHTML += `
+        <div class="message ai">
+            ${text}
+        </div>
+    `;
+
+    chat.scrollTop = chat.scrollHeight;
+
+}
+
+// Typing
+function showTyping(){
+
+    chat.innerHTML += `
+        <div class="message ai" id="typing">
+            ⏳ MUNNA AI is typing...
+        </div>
+    `;
+
+}
+
+function removeTyping(){
+
+    const t = document.getElementById("typing");
+
+    if(t) t.remove();
+
+}
+
+// Save Chat
+function saveChat(){
+
+    localStorage.setItem(
+        "munna_chat",
+        chat.innerHTML
+    );
+
+}
+
+// Voice Reply
+function speak(text){
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = "en-US";
+
+    speech.rate = 1;
+
+    speech.pitch = 1;
+
+    speechSynthesis.speak(speech);
+
+}
+
+// Voice Input
+function startVoice(){
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if(!SpeechRecognition){
+
+        alert("Voice not supported");
+
+        return;
+
     }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+
+    recognition.start();
+
+    recognition.onresult = (e)=>{
+
+        input.value = e.results[0][0].transcript;
+
+        sendMessage();
+
+    };
+
+}
+
+// Image Upload
+document
+.getElementById("imageFile")
+.addEventListener("change",(e)=>{
+
+    const file = e.target.files[0];
+
+    if(!file) return;
+
+    addUserMessage("🖼️ "+file.name);
+
+});
+
+// PDF Upload
+document
+.getElementById("pdfFile")
+.addEventListener("change",(e)=>{
+
+    const file = e.target.files[0];
+
+    if(!file) return;
+
+    addUserMessage("📄 "+file.name);
+
+});
+
+// Enter Key
+input.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Enter"){
+
+        sendMessage();
+
+    }
+
 });

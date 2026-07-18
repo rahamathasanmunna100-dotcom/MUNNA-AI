@@ -6,30 +6,10 @@ const PORT = 3000;
 app.use(express.static("public"));
 app.use(express.json());
 
-// AI-এর পরিচয়
-let chatHistory = [
-    {
-        role: "system",
-        content: `
-তুমি MUNNA AI।
-
-নিয়ম:
-- সবসময় বাংলায় উত্তর দেবে (যদি ব্যবহারকারী ইংরেজি না চায়)।
-- বন্ধুসুলভভাবে কথা বলবে।
-- প্রোগ্রামিং, পড়াশোনা ও সাধারণ প্রশ্নে সাহায্য করবে।
-- উত্তর সংক্ষিপ্ত ও পরিষ্কার হবে।
-`
-    }
-];
+let chatHistory = [];
 
 app.post("/chat", async (req, res) => {
     const message = req.body.message;
-
-    if (!message) {
-        return res.json({
-            reply: "দয়া করে একটি মেসেজ লিখুন।"
-        });
-    }
 
     chatHistory.push({
         role: "user",
@@ -51,26 +31,25 @@ app.post("/chat", async (req, res) => {
 
         const data = await response.json();
 
-        const reply = data.message?.content || "আমি কোনো উত্তর পাইনি।";
+        console.log(data);
+
+        const reply = data.message?.content || "No response.";
 
         chatHistory.push({
             role: "assistant",
             content: reply
         });
 
-        res.json({
-            reply: reply
-        });
+        res.json({ reply });
 
     } catch (err) {
         console.error(err);
-
-        res.json({
-            reply: "❌ Ollama চালু নেই অথবা সংযোগ করা যাচ্ছে না।"
+        res.status(500).json({
+            reply: err.message
         });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+app.listen(PORT, "127.0.0.1", () => {
+    console.log(`🚀 Server running on http://127.0.0.1:${PORT}`);
 });
