@@ -2,8 +2,7 @@ const express = require("express");
 const Groq = require("groq-sdk");
 
 const app = express();
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -16,7 +15,13 @@ let chatHistory = [];
 
 app.post("/chat", async (req, res) => {
   try {
-    const message = req.body.message;
+    const { message } = req.body;
+
+    if (!message) {
+      return res.status(400).json({
+        reply: "Message is required.",
+      });
+    }
 
     chatHistory.push({
       role: "user",
@@ -24,7 +29,7 @@ app.post("/chat", async (req, res) => {
     });
 
     const completion = await groq.chat.completions.create({
-      model: "openai/gpt-oss-20b",
+      model: "llama-3.3-70b-versatile",
       messages: chatHistory,
     });
 
@@ -37,14 +42,16 @@ app.post("/chat", async (req, res) => {
     });
 
     res.json({ reply });
+
   } catch (err) {
-    console.error(err);
+    console.error("FULL ERROR:", err);
+
     res.status(500).json({
-      reply: err.message,
+      reply: err.message || "Server Error",
     });
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
