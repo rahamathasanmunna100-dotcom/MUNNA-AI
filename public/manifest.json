@@ -19,6 +19,4 @@
       "type": "image/png"
     }
   ]
-}git add .
-git commit -m "Added app icons"
-git push origin main
+}
