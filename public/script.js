@@ -241,4 +241,49 @@ input.addEventListener("keydown",(e)=>{
 
     }
 
+});// =====================
+// PWA Install
+// =====================
+
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    const installBtn = document.createElement("button");
+
+    installBtn.id = "installBtn";
+
+    installBtn.innerHTML = "📲 Install App";
+
+    installBtn.style.position = "fixed";
+    installBtn.style.bottom = "20px";
+    installBtn.style.right = "20px";
+    installBtn.style.padding = "12px 20px";
+    installBtn.style.border = "none";
+    installBtn.style.borderRadius = "12px";
+    installBtn.style.background = "#2563eb";
+    installBtn.style.color = "#fff";
+    installBtn.style.cursor = "pointer";
+    installBtn.style.zIndex = "9999";
+
+    document.body.appendChild(installBtn);
+
+    installBtn.addEventListener("click", async () => {
+
+        installBtn.remove();
+
+        deferredPrompt.prompt();
+
+        const result = await deferredPrompt.userChoice;
+
+        console.log(result.outcome);
+
+        deferredPrompt = null;
+
+    });
+
 });
