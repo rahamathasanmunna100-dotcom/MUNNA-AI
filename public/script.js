@@ -2,23 +2,34 @@ const input = document.getElementById("message");
 const chat = document.getElementById("chat");
 const themeBtn = document.getElementById("themeBtn");
 
-// Load saved chat
+// =====================
+// Load Chat History
+// =====================
 window.onload = () => {
     const history = localStorage.getItem("munna_chat");
+
     if (history) {
         chat.innerHTML = history;
         chat.scrollTop = chat.scrollHeight;
     }
 };
 
+// =====================
 // Theme
+// =====================
 themeBtn.onclick = () => {
+
     document.body.classList.toggle("light");
+
     themeBtn.innerHTML =
-        document.body.classList.contains("light") ? "☀️" : "🌙";
+        document.body.classList.contains("light")
+        ? "☀️"
+        : "🌙";
 };
 
+// =====================
 // Send Message
+// =====================
 async function sendMessage() {
 
     const message = input.value.trim();
@@ -34,13 +45,17 @@ async function sendMessage() {
     try {
 
         const response = await fetch("/chat", {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify({
                 message
             })
+
         });
 
         const data = await response.json();
@@ -53,62 +68,78 @@ async function sendMessage() {
 
         speak(data.reply);
 
-    } catch {
+    } catch (err) {
 
         removeTyping();
 
         addAIMessage("❌ Server Error");
 
+        console.error(err);
+
     }
 
 }
 
-// User Bubble
+// =====================
+// User Message
+// =====================
 function addUserMessage(text){
 
     chat.innerHTML += `
-        <div class="message user">
-            ${text}
-        </div>
+    <div class="message user">
+        ${text}
+    </div>
     `;
 
     chat.scrollTop = chat.scrollHeight;
 
 }
 
-// AI Bubble
+// =====================
+// AI Message
+// =====================
 function addAIMessage(text){
 
     chat.innerHTML += `
-        <div class="message ai">
-            ${text}
-        </div>
+    <div class="message ai">
+        ${text}
+    </div>
     `;
 
     chat.scrollTop = chat.scrollHeight;
 
 }
 
+// =====================
 // Typing
+// =====================
 function showTyping(){
 
     chat.innerHTML += `
-        <div class="message ai" id="typing">
-            ⏳ MUNNA AI is typing...
-        </div>
+    <div class="message ai" id="typing">
+        ⏳ MUNNA AI is typing...
+    </div>
     `;
+
+    chat.scrollTop = chat.scrollHeight;
 
 }
 
 function removeTyping(){
 
-    const t = document.getElementById("typing");
+    const typing = document.getElementById("typing");
 
-    if(t) t.remove();
+    if(typing){
+
+        typing.remove();
+
+    }
 
 }
 
+// =====================
 // Save Chat
+// =====================
 function saveChat(){
 
     localStorage.setItem(
@@ -118,7 +149,9 @@ function saveChat(){
 
 }
 
+// =====================
 // Voice Reply
+// =====================
 function speak(text){
 
     speechSynthesis.cancel();
@@ -135,7 +168,9 @@ function speak(text){
 
 }
 
+// =====================
 // Voice Input
+// =====================
 function startVoice(){
 
     const SpeechRecognition =
@@ -144,7 +179,7 @@ function startVoice(){
 
     if(!SpeechRecognition){
 
-        alert("Voice not supported");
+        alert("Voice Not Supported");
 
         return;
 
@@ -156,9 +191,10 @@ function startVoice(){
 
     recognition.start();
 
-    recognition.onresult = (e)=>{
+    recognition.onresult = (event)=>{
 
-        input.value = e.results[0][0].transcript;
+        input.value =
+            event.results[0][0].transcript;
 
         sendMessage();
 
@@ -166,33 +202,37 @@ function startVoice(){
 
 }
 
+// =====================
 // Image Upload
-document
-.getElementById("imageFile")
+// =====================
+document.getElementById("imageFile")
 .addEventListener("change",(e)=>{
 
     const file = e.target.files[0];
 
     if(!file) return;
 
-    addUserMessage("🖼️ "+file.name);
+    addUserMessage("🖼️ Image: " + file.name);
 
 });
 
+// =====================
 // PDF Upload
-document
-.getElementById("pdfFile")
+// =====================
+document.getElementById("pdfFile")
 .addEventListener("change",(e)=>{
 
     const file = e.target.files[0];
 
     if(!file) return;
 
-    addUserMessage("📄 "+file.name);
+    addUserMessage("📄 PDF: " + file.name);
 
 });
 
+// =====================
 // Enter Key
+// =====================
 input.addEventListener("keydown",(e)=>{
 
     if(e.key==="Enter"){

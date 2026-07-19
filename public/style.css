@@ -7,28 +7,30 @@
 body{
     font-family:"Poppins",sans-serif;
     background:#0f172a;
-    color:white;
+    color:#fff;
     height:100vh;
+    overflow:hidden;
+    transition:.3s;
 }
 
 .app{
     width:100%;
-    max-width:1000px;
+    max-width:1100px;
     height:95vh;
     margin:15px auto;
-    background:#111827;
-    border-radius:20px;
-    overflow:hidden;
     display:flex;
     flex-direction:column;
-    box-shadow:0 0 30px rgba(0,0,0,.4);
+    border-radius:20px;
+    overflow:hidden;
+    background:#111827;
+    box-shadow:0 0 40px rgba(0,0,0,.5);
 }
 
 header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px 20px;
+    padding:18px 22px;
     background:#1e293b;
     border-bottom:1px solid #334155;
 }
@@ -40,8 +42,8 @@ header{
 }
 
 .profile{
-    width:60px;
-    height:60px;
+    width:65px;
+    height:65px;
     border-radius:50%;
     object-fit:cover;
     border:3px solid #3b82f6;
@@ -57,18 +59,19 @@ header p{
 }
 
 #themeBtn{
-    background:#2563eb;
+    width:48px;
+    height:48px;
     border:none;
-    color:white;
-    width:45px;
-    height:45px;
     border-radius:50%;
     cursor:pointer;
+    background:#2563eb;
+    color:#fff;
     font-size:20px;
+    transition:.3s;
 }
 
 #themeBtn:hover{
-    background:#1d4ed8;
+    transform:rotate(180deg);
 }
 
 main{
@@ -80,16 +83,16 @@ main{
 
 .message{
     max-width:75%;
-    padding:12px 16px;
+    padding:14px 18px;
+    border-radius:16px;
     margin:12px 0;
-    border-radius:15px;
     line-height:1.6;
-    word-wrap:break-word;
+    animation:fade .25s ease;
 }
 
 .user{
-    background:#2563eb;
     margin-left:auto;
+    background:#2563eb;
 }
 
 .ai{
@@ -99,6 +102,7 @@ main{
 
 footer{
     display:flex;
+    align-items:center;
     gap:10px;
     padding:15px;
     background:#111827;
@@ -107,38 +111,28 @@ footer{
 
 input{
     flex:1;
-    padding:14px;
+    padding:15px;
     border:none;
-    border-radius:12px;
     outline:none;
+    border-radius:14px;
     background:#1e293b;
-    color:white;
+    color:#fff;
     font-size:16px;
 }
 
 button{
-    padding:14px 22px;
     border:none;
-    border-radius:12px;
     cursor:pointer;
+    border-radius:12px;
     background:#2563eb;
-    color:white;
-    font-size:16px;
+    color:#fff;
+    padding:14px 20px;
     transition:.3s;
 }
 
 button:hover{
     background:#1d4ed8;
 }
-
-::-webkit-scrollbar{
-    width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-    background:#334155;
-    border-radius:20px;
-}/* Upload Buttons */
 
 .upload-btn{
     width:55px;
@@ -147,7 +141,6 @@ button:hover{
     justify-content:center;
     align-items:center;
     background:#374151;
-    color:white;
     border-radius:12px;
     cursor:pointer;
     font-size:22px;
@@ -158,15 +151,10 @@ button:hover{
     background:#2563eb;
 }
 
-/* Microphone Button */
-
 #micBtn{
     width:55px;
     height:55px;
     background:#059669;
-    color:white;
-    border:none;
-    border-radius:12px;
     font-size:22px;
 }
 
@@ -174,15 +162,13 @@ button:hover{
     background:#047857;
 }
 
-/* Light Mode */
-
 body.light{
     background:#f1f5f9;
     color:#111827;
 }
 
 body.light .app{
-    background:white;
+    background:#fff;
 }
 
 body.light header{
@@ -194,12 +180,61 @@ body.light main{
 }
 
 body.light input{
-    background:white;
-    color:black;
+    background:#fff;
+    color:#000;
     border:1px solid #cbd5e1;
 }
 
 body.light .ai{
     background:#e2e8f0;
-    color:black;
+    color:#000;
+}
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#334155;
+    border-radius:20px;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:768px){
+
+header h2{
+    font-size:18px;
+}
+
+.profile{
+    width:50px;
+    height:50px;
+}
+
+.message{
+    max-width:90%;
+}
+
+footer{
+    gap:6px;
+}
+
+button,
+.upload-btn,
+#micBtn{
+    width:48px;
+    height:48px;
+    padding:0;
+}
+
 }

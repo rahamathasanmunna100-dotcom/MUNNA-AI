@@ -1,45 +1,66 @@
-<footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUNNA AI</title>
 
-    <!-- Voice -->
-    <button id="micBtn" onclick="startVoice()">
-        🎤
-    </button>
+    <link rel="stylesheet" href="style.css">
 
-    <!-- Image Upload -->
-    <label for="imageFile" class="upload-btn">
-        🖼️
-    </label>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-    <input
-        type="file"
-        id="imageFile"
-        accept="image/*"
-        hidden
-    >
+<body>
 
-    <!-- PDF Upload -->
-    <label for="pdfFile" class="upload-btn">
-        📄
-    </label>
+<div class="app">
 
-    <input
-        type="file"
-        id="pdfFile"
-        accept=".pdf"
-        hidden
-    >
+    <!-- Header -->
+    <header>
 
-    <!-- Message -->
-    <input
-        id="message"
-        type="text"
-        placeholder="Ask anything..."
-        autocomplete="off"
-    >
+        <div class="left">
 
-    <!-- Send -->
-    <button onclick="sendMessage()">
-        Send
-    </button>
+            <img src="profile.jpg" class="profile" alt="Profile">
 
-</footer>
+            <div>
+                <h2>MUNNA AI</h2>
+                <p>Created by Munna</p>
+            </div>
+
+        </div>
+
+        <button id="themeBtn">🌙</button>
+
+    </header>
+
+    <!-- Chat -->
+    <main id="chat"></main>
+
+    <!-- Footer -->
+    <footer>
+
+        <button id="micBtn" onclick="startVoice()">🎤</button>
+
+        <label for="imageFile" class="upload-btn">🖼️</label>
+        <input type="file" id="imageFile" accept="image/*" hidden>
+
+        <label for="pdfFile" class="upload-btn">📄</label>
+        <input type="file" id="pdfFile" accept=".pdf" hidden>
+
+        <input
+            id="message"
+            type="text"
+            placeholder="Ask anything..."
+            autocomplete="off"
+        >
+
+        <button onclick="sendMessage()">Send</button>
+
+    </footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
