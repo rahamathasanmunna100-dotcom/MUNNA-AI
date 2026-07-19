@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
-    "multer": "^2.2.0",
-    "groq-sdk": "^0.26.0"
+    "groq-sdk": "^0.26.0",
+    "multer": "^2.2.0"
   }
 }
