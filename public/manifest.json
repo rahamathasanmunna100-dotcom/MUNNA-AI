@@ -4,19 +4,21 @@
   "description": "AI Assistant created by Munna",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
+  "background_color": "#111827",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/profile.jpg",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "/profile.jpg",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
-}
+}git add .
+git commit -m "Added app icons"
+git push origin main
